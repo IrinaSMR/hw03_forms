@@ -8,5 +8,4 @@ class PostForm(ModelForm):
         model = Post
         fields = ('text', 'group')
         labels = {'group': 'Группа', 'text': 'Текст'}
-        text = forms.CharField(widget=forms.Textarea)
  

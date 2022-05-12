@@ -65,7 +65,7 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = User.objects.get(username=request.user.username)
             post.save()
-            return redirect('/profile/' + request.user.username)
+            return redirect(f'/profile/{request.user.username}/')
 
     form = PostForm(request.GET)
     posts_group = Group.objects.all()
@@ -81,14 +81,14 @@ def post_edit(request, post_id):
     user = request.user
     author = post.author
     if author != user:
-        return redirect('/posts/' + str(post_id))
+        return redirect(f'/posts/{post_id}/')
     
     if request.method == 'POST':
         form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
-            return redirect('/posts/' + str(post_id))
+            return redirect(f'/posts/{post_id}/')
 
     form = PostForm(instance=post)
     context = {
