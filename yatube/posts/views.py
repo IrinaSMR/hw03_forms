@@ -77,24 +77,23 @@ def post_create(request):
 
 
 def post_edit(request, post_id):
-    post = Post.objects.get(pk=post_id)
-    if post.author_id != request.user.id:
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    author = post.author
+    if author != user:
         return redirect('/posts/' + str(post_id))
     
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = User.objects.get(username=request.user.username)
             post.save()
-            return
+            return redirect('/posts/' + str(post_id))
 
-    form = PostForm(request.GET)
-    posts_group = Group.objects.all()
+    form = PostForm(instance=post)
     context = {
-        'posts_group': posts_group,
-        'form': form,
         'is_edit': True,
-        'text': post.text,
+        'form': form,
+        'post_id': post_id,
     }
     return render(request, 'posts/create_post.html', context)
