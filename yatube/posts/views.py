@@ -15,7 +15,7 @@ def index(request):
     context = {
         'page_obj': page_obj,
     }
-    return render(request, 'posts/index.html', context) 
+    return render(request, 'posts/index.html', context)
 
 
 def group_posts(request, slug):
@@ -30,6 +30,7 @@ def group_posts(request, slug):
         'posts': posts,
     }
     return render(request, 'posts/group_list.html', context)
+
 
 def profile(request, username):
     posts = Post.objects.filter(author__username=username)
@@ -82,7 +83,7 @@ def post_edit(request, post_id):
     author = post.author
     if author != user:
         return redirect(f'/posts/{post_id}/')
-    
+
     if request.method == 'POST':
         form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
