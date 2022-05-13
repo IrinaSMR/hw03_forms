@@ -89,6 +89,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+ITEMS_COUNT = 10
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
