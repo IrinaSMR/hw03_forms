@@ -14,7 +14,7 @@
       {% if post.group %}   
       <li class="list-group-item">
         Группа: {{ post.group.title }}</br>
-      <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
+      <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
       {% endif %}
       </li>
       <li class="list-group-item">
@@ -31,7 +31,12 @@
     </ul>
   </aside>
   <article class="col-12 col-md-9">
-    <p>{{ post.text }}</p>
+    <p>{{ post.text|linebreaksbr }}</p>
   </article>
-</div> 
+  {% if user.is_authenticated and user == post.author %}
+  <a href="{% url 'posts:post_edit' post.id %}" class="btn btn-link">
+    Редактировать
+  </a>
+  {% endif %}  
+</div>
 {% endblock %}

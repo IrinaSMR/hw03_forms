@@ -1,5 +1,5 @@
-from django.forms import ModelForm
 from .models import Post
+from django.forms import ModelForm
 
 
 class PostForm(ModelForm):
@@ -7,3 +7,4 @@ class PostForm(ModelForm):
         model = Post
         fields = ('text', 'group')
         labels = {'group': 'Группа', 'text': 'Текст'}
+        help_texts = {'text': ('Обязательное поле для заполнения')}
