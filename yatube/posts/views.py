@@ -35,10 +35,9 @@ def group_posts(request, slug):
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts = author.posts.all()
-    post_count = posts.count()
     context = {
         'page_obj': get_paginator(posts, request),
-        'post_count': post_count,
+        'post_count': posts.count(),
         'author': author
     }
     return render(request, 'posts/profile.html', context)
@@ -47,10 +46,9 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     posts = Post.objects.filter(author__id=post.author_id)
-    post_count = posts.count()
     context = {
         'post': post,
-        'post_count': post_count,
+        'post_count': posts.count(),
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -58,7 +56,7 @@ def post_detail(request, post_id):
 @login_required
 def post_create(request):
     form = PostForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
+    if form.is_valid():
         post = form.save(commit=False)
         post.author = User.objects.get(username=request.user.username)
         post.save()
@@ -78,14 +76,14 @@ def post_edit(request, post_id):
     user = request.user
     author = post.author
     if author != user:
-        return redirect('posts:post_id')
+        return redirect('posts:post_detail', post_id)
 
     if request.method == 'POST':
         form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
-            return redirect('posts:post_id')
+            return redirect('posts:post_detail', post_id)
 
     form = PostForm(instance=post)
     context = {

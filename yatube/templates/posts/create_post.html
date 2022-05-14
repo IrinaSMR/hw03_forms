@@ -28,7 +28,11 @@
           {% endif %}        
         </div>
         <div class="card-body">       
-          <form method="post" action="{% url 'posts:post_create' %}">
+          {% if form.instance.id %}
+            <form method="post" action="{% url 'posts:post_edit' form.instance.id %}">
+          {% else %}
+            <form method="post" action="{% url 'posts:post_create' %}">
+          {% endif %}  
           {% csrf_token %}
           {% for field in form %}
           <div class="form-group row my-3 p-3">
