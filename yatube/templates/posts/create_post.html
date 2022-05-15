@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 
 {% load user_filters %}
+
 {% block title %}
-{% if is_edit %}
-Редактирование записи
-{% else %}
-Добавление записи
-{% endif %}
+  {% if is_edit %}
+    Редактирование записи
+  {% else %}
+    Добавление записи
+  {% endif %}
 {% endblock %}
-{% block header %}{% if is_edit %}
-Редактирование записи
-{% else %}
-Добавление записи
-{% endif %}
+
+{% block header %}
+  {% if is_edit %}
+    Редактирование записи
+  {% else %}
+    Добавление записи
+  {% endif %}
 {% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
