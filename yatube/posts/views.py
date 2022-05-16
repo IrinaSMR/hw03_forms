@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
+
 from posts.forms import PostForm
 
 from .models import Group, Post, User
@@ -45,10 +46,9 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    posts = Post.objects.filter(author__id=post.author_id)
     context = {
         'post': post,
-        'post_count': posts.count(),
+        'post_count': post.author.posts.count(),
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -58,7 +58,7 @@ def post_create(request):
     form = PostForm(request.POST or None)
     if form.is_valid():
         post = form.save(commit=False)
-        post.author = User.objects.get(username=request.user.username)
+        post.author = request.user
         post.save()
         return redirect('posts:profile', username=request.user.username)
 
@@ -81,7 +81,6 @@ def post_edit(request, post_id):
     form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
         post = form.save()
-        post.save()
         return redirect('posts:post_detail', post_id)
 
     context = {

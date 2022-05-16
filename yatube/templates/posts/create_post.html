@@ -3,7 +3,7 @@
 {% load user_filters %}
 
 {% block title %}
-  {% if is_edit %}
+  {% if form.instance.id %}
     Редактирование записи
   {% else %}
     Добавление записи
@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block header %}
-  {% if is_edit %}
+  {% if form.instance.id %}
     Редактирование записи
   {% else %}
     Добавление записи
