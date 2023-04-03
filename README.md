@@ -12,7 +12,7 @@ https://github.com/IrinaSMR/hw02_community.git
 
 Клонируйте репозиторий и перейдите в папку с проектом:
 ```
-git clone https://github.com/iliazaraysky/hw03_forms.git
+git clone https://github.com/IrinaSMR/hw03_forms.git
 cd hw03_forms
 ```
 
